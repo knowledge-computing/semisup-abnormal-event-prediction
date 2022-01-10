@@ -10,96 +10,58 @@ from torch.utils.tensorboard import SummaryWriter
 def arg_parse():
 
     parser = argparse.ArgumentParser(description='NTT')
-    parser.add_argument('--device', type=str, default='2', 
+    parser.add_argument('--gpu_id', type=str, default='2', 
                         help='gpu id')
 
     # data settings
-    parser.add_argument('--data_path', type=str, 
-                        help='data path')
     parser.add_argument('--res_path', type=str, 
                         help='result path of model, logs, outputs')
     parser.add_argument('--model_name', type=str, 
-                        help='model name')
-    parser.add_argument('--ae_model_name', type=str, default='',
-                        help='ae model name')
-
-    parser.add_argument('--num_classes', type=int, default=2, 
-                        help='number of classes')
-    parser.add_argument('--n_pos_samples', type=int, default=-1,
-                        help='the number of positive samples to use, default: -1 using all the positive samples')
-    parser.add_argument('--n_neg_samples', type=int, default=-1,
-                        help='the number of negative samples to use, default: -1 using all the negative samples')
-    parser.add_argument('--shuffle', action='store_false',
-                        help='if shuffling the dataset, default: True')
-    parser.add_argument('--random_seed', type=int, default=1234, 
-                        help='random seed')
-    
-    # train settings
-    parser.add_argument('--lr', type=float, default=0.001, 
-                        help='learning rate')
-    parser.add_argument('--lr_center', type=float, default=0.0001, 
-                        help='learning rate')
-    parser.add_argument('--weight_decay', type=float, default=0.0001, 
-                        help='weight decay')
-    parser.add_argument('--epochs', type=int, default=100, 
-                        help='number of epochs')
-    parser.add_argument('--batch_size', type=int, default=32, 
-                        help='batch size')
-    parser.add_argument('--patience', type=int, default=7, 
-                        help='number of epochs for stopping if not updating')
-    parser.add_argument('--log_interval', type=int, default=1, 
-                        help='log interval')
-    parser.add_argument('--use_node_aux_attr', action='store_true',
-                        help='using node attributes, i.e., node names, default: False')
-    parser.add_argument('--use_graph_aux_attr', action='store_true',
-                        help='using graph attributes, i.e., time info, default: False')
-    parser.add_argument('--use_unlabel', action='store_true',
-                        help='using unlabeled graph data, default: False')
-
-    # model settings
-    parser.add_argument('--h_dim', type=int, default=256, 
-                        help='number of hidden dim')
-    parser.add_argument('--graph_h_dim', type=int, default=256, 
-                        help='number of graph hidden dim')
-    parser.add_argument('--predict_func', type=str, default='SVM', 
-                        help='the function to make prediction, NN | SVM')    
-    parser.add_argument('--num_attn_layers', type=int, default=1, 
-                        help='number of attentions, default: 1')
-    parser.add_argument('--eta', type=float, default=0.1, 
-                        help='scaler for labeled error, default: 0.1')
-    
-    # others
-    parser.add_argument('--use_tb', action='store_true', 
-                        help='default: False')
-    parser.add_argument('--tb_path', type=str, default='', 
-                        help='tensorboard path')
-    parser.add_argument('--verbose', action='store_false', 
-                        help='if logging the loss')
-
+                        help='model name') 
     args = parser.parse_args()
     input_check(args)
     return args
 
 
-def verbose(args):
-
-    if args.verbose:
-        for arg in vars(args):
-            print(f'{arg}: {getattr(args, arg)}')
-
-    for arg in vars(args):
-        logging.info(f'{arg}: {getattr(args, arg)}')
-
-
-def input_check(args):
+def input_check(params):
 
     # check data existence
-    if not os.path.exists(args.data_path):
+    if not os.path.exists(params['data_path']):
         print('The data path does not exist. SKIP.')
         sys.exit(1)
 
     # check model existence
-    if not os.path.exists(args.res_path):
+    if not os.path.exists(params['res_path']):
         print('The result path does not exist. SKIP.')
         sys.exit(1)
+
+        
+def load_param_dict(args=None, mode='test'):
     
+    param_dict = dict()
+    param_dict['mode'] = mode
+
+    if args is None:
+        param_dict['model_name'] = 'test'
+        param_dict['res_path'] = './results'
+        param_dict['gpu_id'] = 1
+    else:
+        param_dict['model_name'] = args.model_name
+        param_dict['res_path'] = args.res_path
+        param_dict['gpu_id'] = args.gpu_id
+        
+    param_dict['res_path'] = os.path.join(param_dict['res_path'], param_dict['model_name'])            
+    param_dict['model_path'] = os.path.join(param_dict['res_path'], 'models')
+    param_dict['log_path'] = os.path.join(param_dict['res_path'], 'logs')
+    param_dict['img_path'] = os.path.join(param_dict['res_path'], 'imgs')
+    
+    output_json_path = os.path.join(param_dict['res_path'], 'output.json')
+    with open(output_json_path, "r") as f:
+        output_json = json.load(f)
+    
+    for k, v in output_json.items():
+        if k not in param_dict.keys():
+            param_dict[k] = v
+    print(param_dict)
+    param_dict = input_check(param_dict)
+    return param_dict
