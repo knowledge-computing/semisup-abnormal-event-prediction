@@ -1,10 +1,13 @@
-from anomaly_detection.models.gatconv_encoder import GATConvEncoder
-from anomaly_detection.models.gatconv_cvae import GATConvCVAE
-from anomaly_detection.models.gatconvlstm_cvae import GATConvLSTMCVAE
-from anomaly_detection.models.stconv_cvae import STConvCVAE
-from anomaly_detection.models.st_conv_ngat import TGConvNGATEncDec
+import sys
+sys.path.append('../../')
 
-from anomaly_detection.scripts.train_graph import *
+from models.gatconv_encoder import GATConvEncoder
+from models.gatconv_cvae import GATConvCVAE
+from models.gatconvlstm_cvae import GATConvLSTMCVAE
+from models.stconv_cvae import STConvCVAE
+from models.st_conv_ngat import TGConvNGATEncDec
+
+from scripts.train_graph import *
 
 
 def initialize_model(dataset, args):

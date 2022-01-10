@@ -8,9 +8,12 @@ from torch_geometric.nn import global_add_pool, GATConv, GlobalAttention
 from torch_geometric.nn.norm.batch_norm import BatchNorm
 from torch_geometric.nn.norm.graph_norm import GraphNorm
 
-from semi_supervised_AD.models.tgconv_ngat_base import TGConvNGATBase
-from semi_supervised_AD.models.temporal_gated_conv import TemporalGatedConv
-from semi_supervised_AD.models.temporal_gated_conv import TemporalGatedConvTrans
+import sys
+sys.path.append('../../')
+
+from models.tgconv_ngat_base import TGConvNGATBase
+from models.temporal_gated_conv import TemporalGatedConv
+from models.temporal_gated_conv import TemporalGatedConvTrans
 
 
 class ClusterAssignment(nn.Module):

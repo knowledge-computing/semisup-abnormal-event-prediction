@@ -26,11 +26,11 @@ def draw_individual_plots(plot_dict, res_path):
         df['x0'], df['x1'], df['label'], df['prediction'] = x[:, 0], x[:, 1], y, p
 
         sns.pairplot(x_vars=['x0'], y_vars=['x1'], data=df, hue='label', height=5)
-        plt.savefig(os.path.join(res_path, 'img', f'{name}_{epoch}_label.png'))
+        plt.savefig(os.path.join(res_path, 'imgs', f'{name}_{epoch}_label.png'))
         plt.close()
 
         sns.pairplot(x_vars=['x0'], y_vars=['x1'], data=df, hue='prediction', height=5)
-        plt.savefig(os.path.join(res_path, 'img', f'{name}_{epoch}_prediction.png'))
+        plt.savefig(os.path.join(res_path, 'imgs', f'{name}_{epoch}_prediction.png'))
         plt.close()
 
 
@@ -54,7 +54,7 @@ def draw_train_test_plot_backup(plot_dict, res_path):
         df[name] = np.select(conditions, ['train_0', 'train_1', 'test_0', 'test_1'])
         sorted_df = df.sort_values(by='label', ascending=True)
         sns.pairplot(x_vars=['x0'], y_vars=['x1'], data=sorted_df, hue=name, palette=palette, height=5)
-        plt.savefig(os.path.join(res_path, 'img', f'{epoch}_{name}.png'))
+        plt.savefig(os.path.join(res_path, 'imgs', f'{epoch}_{name}.png'))
         plt.close()
 
     plot(col='y', name='label')        
@@ -90,7 +90,7 @@ def draw_train_test_plot(plot_dict, res_path):
         plt.legend(prop={'size': 25})
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
-        plt.savefig(os.path.join(res_path, 'img', f'{epoch}_{name}.png'))
+        plt.savefig(os.path.join(res_path, 'imgs', f'{epoch}_{name}.png'))
         plt.close()
 
     plot(col='y', name='label')        
@@ -134,7 +134,7 @@ def draw_train_test_center_plot(plot_dict, res_path):
         plt.legend(prop={'size': 25})
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
-        plt.savefig(os.path.join(res_path, 'img', f'{epoch}_{name}.png'))
+        plt.savefig(os.path.join(res_path, 'imgs', f'{epoch}_{name}.png'))
         plt.close()
 
     plot(col='y', name='label')        

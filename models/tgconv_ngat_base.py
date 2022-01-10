@@ -4,7 +4,10 @@ import torch.nn.functional as F
 from torch_geometric.nn import GATConv
 from torch_geometric.nn.norm.graph_norm import GraphNorm
 
-from semi_supervised_AD.models.temporal_gated_conv import TemporalGatedConv
+import sys
+sys.path.append('../../')
+
+from models.temporal_gated_conv import TemporalGatedConv
 
 
 class TGConvNGATBase(nn.Module):
