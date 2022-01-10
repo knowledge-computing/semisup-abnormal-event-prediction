@@ -3,6 +3,8 @@ A Semi-Supervised Approach for Abnormal Event Prediction on Large Operational Ne
 
 https://arxiv.org/abs/2110.07660
 
+The image shows an example of the network structure ![network structure](/images/network_deff.jpg)
+
 ## Requirements
 * torch==1.9
 * seaborn
@@ -24,5 +26,11 @@ __You can find a more detail in "*python train.py -h"__
 
 ## Interpreting / Visualizing results
 
-__You can find current saved model settings in [RES_PATH]/output.json
+__You can find the current saved model settings in [RES_PATH]/output.json__
 
+__You can find the intermediate visualization results in [RES_PATH]/imgs/__
+
+The following images shows two examples of the embedding clusters for __event__ (0) and __non-event__ (1) groups after training
+
+![res1](/images/res1.jpg)
+![res1](/images/res2.jpg)
