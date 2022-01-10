@@ -3,7 +3,26 @@ A Semi-Supervised Approach for Abnormal Event Prediction on Large Operational Ne
 
 https://arxiv.org/abs/2110.07660
 
-The image shows an example of the network structure ![network structure](/images/network_deff.jpg)
+## Data
+In this project, we are looking at network data. The below image shows an example network structure.
+
+<p align="center">
+  <img src="/images/network_deff.jpg" width="500">
+</p>
+
+Basically, in a network, there can be multiple devices. In this example network, we can see there are two devices presented in blue squares. One device usually has multiple descriptions or interfaces, like SDWAN device usually has lan and wan interfaces. Each device can have different types of interfaces. One description is measured by several attributes, in this example, we have 4 attributes, and each attribute provides measurements as a time series. 
+
+Besides the network data, we also have event data, which are reported at the device-level. The below image shows how to label events.
+
+
+
+However, we actually don’t know which interface or which attribute triggers the event. So, We assume that events are caused by some abnormal activities before that event time in the entire network.
+Here, We only have the reported events, and the system status at the remaining time are not explicitly provided, that means we are not sure about how long the event will be last for. 
+In this example, suppose here we have an event, we know that some abnormal activities before that trigger the event, but we don’t know if 
+
+
+The network image shows an example of the network structure ![network structure](/images/network_deff.jpg =100x)
+<img src="/images/network_deff.jpg" width="500">
 
 ## Requirements
 * torch==1.9
